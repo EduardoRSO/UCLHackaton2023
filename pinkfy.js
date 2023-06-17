@@ -1,103 +1,98 @@
-document.body.style.border = "5px solid red";
+const INTERVAL_KEY = "INTERVAL_KEY";
+// default to 1s refresh window
+const DEFAULT_INTERVAL = "1000";
 
-//found this at https://github.com/Fortyseven/nCage/blob/master/ncage.js 
-(function () {
-  //Ncage 
-  var main = function ($) {
+const NICS = [
+  "https://www.criarmeme.com.br/meme/meme-55404-O-que-vamos-fazer-hoje-Pink-Vamos-dominar-o-mundo.jpg", // 1
+  "https://i.pinimg.com/originals/07/c4/88/07c488a29fd4320984bff0e6baf41023.jpg", // 2
+  "https://img.elo7.com.br/product/zoom/11172E2/poster-a3-dominar-o-mundo-decoracao.jpg", // 3
+  "https://www.senhormercado.com.br/wp-content/uploads/Cerebro-Vamos-dominar-o-mundo.jpg", // 4
+  "https://static3.tcdn.com.br/img/img_prod/460977/estatua_cerebro_pink_e_cerebro_pinky_and_the_brain_100757_1_a0e18f530cf71f72ddcba0ade92ac2d4.jpeg", // 5
+  "https://www.fatosdesconhecidos.com.br/wp-content/uploads/2016/01/pinky.jpg", // 6
+  "https://i.pinimg.com/600x315/5a/02/59/5a02591736dfc39e676d786e1bb43360.jpg", // 7
+  "https://observatoriodocinema.uol.com.br/wp-content/uploads/2020/09/pink-e-cerebro.jpg", // 8
+  "https://4.bp.blogspot.com/-d6BXlE93A5Y/W0axI_4PI9I/AAAAAAAAVzs/ayczogVoubcbjwlK-FIjKTl14FsnueZ5ACLcBGAs/s1600/pink%2Be%2Bcerebro.jpg", // 9
+  "https://deusnogibi.com.br/site/wp-content/uploads/2014/05/YADDPINKY1.jpg", // 10
+  "https://hqscomcafe.com.br/wp-content/uploads/2018/04/pinky-elmyra-y-cerebro.jpg", // 11
+  "https://br.web.img3.acsta.net/pictures/15/09/01/15/54/041344.jpg", // 12
+  "https://pbs.twimg.com/profile_images/727798371545665536/MGkkHWRK_400x400.jpg", // 13
+  "https://i.pinimg.com/236x/06/d6/26/06d626754afcfc9b366d4eca4ae96ede--the-brain-childhood-memories.jpg", // 14
+  "https://img.elo7.com.br/product/main/25BF2D7/caneca-pink-e-o-cerebro-presente-para-namorada.jpg", // 15
+  "https://cdn.meadd.net/photos/full/25206000.jpg", // 16
+  "https://d17lbu6bbzbdc8.cloudfront.net/wp-content/uploads/2020/09/13071233/pinky-and-the-brain.jpg", // 17
+  "https://minilua.net/wp-content/uploads/2016/01/00010ed602eb71469c01916d9f8ca836_343907.jpg", // 18
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9bvUY4cqAYURy6oH9gHRr2Pwxpo8DxveQcg&usqp=CAU", // 19
+  "https://pm1.aminoapps.com/7228/73625a140e48fac81c864fcf9aa43c9c63dce026r1-640-320v2_hq.jpg", // 20
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtXCg_Z4d-6zqwEiN8mkaUyOXDkz5LzFVvzQ&usqp=CAU", // 21
+  "https://i.pinimg.com/originals/d4/20/2e/d4202e6602584b60fafb2accb2cdc480.jpg", // 22
+  "https://i.pinimg.com/originals/7e/63/cc/7e63cc6f770138614690381a61c42824.jpg", // 23
+  "https://www.criarmeme.com.br/meme/meme-71270-O-que-vamos-fazer-hoje-cerebro-Tentar-dominar-os-elevadores-de-sao-Jose.jpg", // 24
+  "https://pbs.twimg.com/media/Ey5h454XMAIvl1x.jpg", // 25
+  "https://memesdometal.files.wordpress.com/2012/05/pinkecerebro.png", // 26
+  "https://imgbrazil.ifunny.co/images/60cf6f29bc72ca0c2914b6c8c3d8a47743fbc5d75c6bc714c7627093f92a9d57_1.jpg", // 27
+  "https://4.bp.blogspot.com/-B2L56ONMO9k/V23dyt1NG5I/AAAAAAAAFt0/JCGWCdarahswqKgQxDjeja2nc_vKNbPUACKgB/s1600/913981.jpg", // 28
+  "https://borgesogatodotcom.files.wordpress.com/2012/08/313.jpg", // 29
+  "https://pm1.aminoapps.com/6438/66a27bf8aba0ed11fb12a20b9246f7a4b2376a64_hq.jpg", // 30
+  "https://mnegreiros.com/wp-content/uploads/2023/04/PC.jpg", // 31
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6yu_1C9mnGd3it7EbJJHLLHD1lR9vKalhFg&usqp=CAU", // 32
+  "https://3.bp.blogspot.com/-8ZvQdT6A_5g/T67SiGKCUKI/AAAAAAAAAKM/YmzHnFel5e8/s1600/dominar-o-mundo.jpg", // 33
+  "https://duasfridas.files.wordpress.com/2014/12/10301495_750049638397592_7730136950752049308_n.png", // 34
+  "https://m.extra.globo.com/incoming/24287464-bab-7c3/w533h800/ronaldinho-memes-1.jpg", // 35
+  "https://static.wikia.nocookie.net/animaniacs/images/b/bc/PATH_HBO_MAX_CN_Brasil_promo_6.jpeg/revision/latest/scale-to-width-down/250?cb=20220704194627", //36
+  // "http://de.web.img3.acsta.net/r_1280_720/medias/nmedia/18/35/51/53/18458294.jpg", // same
+  // "https://www.episodi.fi/wp-content/uploads/nicolas-cage-world-trade-center.jpg", // all nics are blessed
+  // "http://1.bp.blogspot.com/-WZRyOwsfE-8/U1bVZbeMK9I/AAAAAAAAAMY/JEe1Ie4G5fE/s1600/nicolas-cage-fu-manchu-grindhouse.jpg", // this may be questionable
+  // "https://multiglom.files.wordpress.com/2015/01/badlieu02.jpg", // bad cop
+  // "https://2.bp.blogspot.com/-1LyVzMxNm7Q/W83_4TYmZKI/AAAAAAAAAIY/sjkzpcFyoFYVJ_ousNs2u5AGETVXhGLdwCLcBGAs/s1600/Nic%252BCage.png", // angerry
+  // "https://www.yam-mag.com/wp-content/uploads/2012/05/nicholas-cage-kick-ass.jpg", // makeup is cool
+]
 
-    var self = $.nCage = new function () {};
+function getNic() {
+  let nicNum = Math.floor(Math.random() * NICS.length);
+  return NICS[nicNum];
+}
 
-    $.extend(self, {
-      nCageImgs: [
-        'http://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Nicolas_Cage_2011_CC.jpg/220px-Nicolas_Cage_2011_CC.jpg',
-        'http://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Nicolas_Cage_-_66%C3%A8me_Festival_de_Venise_(Mostra).jpg/220px-Nicolas_Cage_-_66%C3%A8me_Festival_de_Venise_(Mostra).jpg',
-        'http://content8.flixster.com/rtactor/40/33/40334_pro.jpg',
-        'http://images.fandango.com/r88.0/ImageRenderer/200/295/images/performer_no_image_large.jpg/0/images/masterrepository/performer%20images/p10155/kickass-pm-4.jpg',
-        'http://topnews.in/files/Nicolas-Cage_0.jpg',
-        'http://i0.kym-cdn.com/entries/icons/original/000/006/993/1817.jpg',
-        'http://images.trulia.com/blogimg/9/d/7/d/1775659_1302741896636_o.jpg',
-        'http://cache2.artprintimages.com/LRG/10/1062/Y4UL000Z.jpg',
-        'http://fitnessgurunyc.com/wp/wp-content/uploads/2011/03/5c4fc_nicolas_cage_01.jpeg',
-        'http://www3.pictures.fp.zimbio.com/Nicholas+Cage+David+Letterman+-EtX2RCI91al.jpg',
-        'http://www.topnewmovieslist.com/wp-content/uploads/2012/05/Nicolas-Cage-Movies.jpg',
-        'http://resources2.news.com.au/images/2009/11/04/1225794/400950-nicolas-cage.jpg',
-        'http://www.topnews.in/uploads/Nicolas-Cage1.jpg',
-        'http://d2tq98mqfjyz2l.cloudfront.net/image_cache/1335739369248357_animate.gif',
-        'http://thetrustadvisor.com/wp-content/uploads/2013/03/nicolas-cage.jpg',
-        'http://starsmedia.ign.com/stars/image/article/908/908074/nicolas-cage-20080905025038648-000.jpg',
-        'http://images.latinospost.com/data/images/full/10956/nicolas-cage.jpg?w=600',
-        'http://wpc.556e.edgecastcdn.net/80556E/img.news/NEPYPT3WQzBeUP_1_1.jpg',
-        'http://www.iwatchstuff.com/2012/11/30/nic-cage-in-things.jpg',
-        'http://images.contactmusic.com/newsimages/nicolas_cage_552048.jpg',
-        'http://www.apnatimepass.com/nicolas-cage-in-stolen-movie-10.jpg',
-        'http://24.media.tumblr.com/e68455822f14c29d43bacbc19f15ed36/tumblr_mr1kquuOvD1rimb2bo1_400.jpg',
-        'http://doubleaardvarkmedia.com/wp-content/uploads/2013/07/nicolas_cage_1193538-450-x-450.jpg',
-        'http://static2.businessinsider.com/image/4adcd99800000000009ed0dd/how-nicolas-cage-spent-his-way-to-the-poorhouse.jpg',
-        'http://www1.pictures.zimbio.com/pc/Nicolas+Cage+Nicolas+Cage+Emma+Stone+Croods+AbN87pQpWsjl.jpg',
-        'http://signaltower.co/wp-content/uploads/2013/03/crazy-nicholas-cage-placeholder-image.jpg',
-      ],
-      handleImages: function (lstImgs, time) {
-        $.each($('img'), function (i, item) {
-          //Skip if image is already replaced
-          if ($.inArray($(item).attr('src'), lstImgs) == -1) {
-            var h = $(item).height();
-            var w = $(item).width();
+function replaceImages() {
+  for (let i = 0; i < document.images.length; ++i) {
+    let img = document.images[i];
 
-            //If image loaded
-            if (h > 0 && w > 0) {
-              //Replace
-              $(item).css('width', w + 'px').css('height', h + 'px');
-              $(item).attr('src', lstImgs[Math.floor(Math.random() * lstImgs.length)]);
-            }
-            else {
-              //Replace when loaded
-              $(item).load(function () {
-                //Prevent 'infinite' loop
-                if ($.inArray($(item).attr('src'), lstImgs) == -1) {
-                  var h = $(item).height();
-                  var w = $(item).width();
-                  $(item).css('width', w + 'px').css('height', h + 'px');
-                  $(item).attr('src', lstImgs[Math.floor(Math.random() * lstImgs.length)]);
-                }
-              });
-            }
-          }
-        });
+    if (img.classList.contains('nicced')) {
+      continue;
+    }
+    img.classList.add('nicced');
 
-        //Keep replacing
-        if (time > 0)
-          setTimeout(function () {self.handleImages(lstImgs, time);}, time);
-      }
-    });
+    // attempt to retain the original dimensions
+    img.style.width = img.width + 'px';
+    img.style.height = img.height + 'px';
 
-    //Run on jQuery ready
-    $(function () {
-      self.handleImages(self.nCageImgs, 3000);
-    });
+    // nic-em
+    let loc = getNic()
+    img.src = loc;
+    if (img.srcset) {
+      img.srcset = loc;
+    }
   };
+}
 
-  //Method to load jQuery
-  function loadJS(src, callback) {
-    var s = document.createElement('script');
-    s.src = src;
-    s.async = true;
-    s.onreadystatechange = s.onload = function () {
-      var state = s.readyState;
-      if (!callback.done && (!state || /loaded|complete/.test(state))) {
-        callback.done = true;
-        callback();
-      }
-    };
-    document.getElementsByTagName('head')[0].appendChild(s);
-  }
-
-  //Add jQuery if not present, then run main
-  if (typeof jQuery == 'undefined') {
-    loadJS(('https:' == document.location.protocol ? 'https://' : 'http://') + 'ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js', function () {
-      jQuery.noConflict();
-      main(jQuery);
+// setup defaults
+function get_interval_or_default(item) {
+  if (!item || item === {} || !(INTERVAL_KEY in item)) {
+    browser.storage.local.set({
+      INTERVAL_KEY: DEFAULT_INTERVAL
     });
+    return DEFAULT_INTERVAL;
   } else {
-    main(jQuery);
+    return item[INTERVAL_KEY];
   }
-})();
+}
+
+// start up the extension
+browser.storage.local.get().then(
+  (item) => {
+    let interval = get_interval_or_default(item);
+    window.setInterval(replaceImages, interval);
+  },
+  (_) => {
+    window.setInterval(replaceImages, DEFAULT_INTERVAL);
+  }
+);

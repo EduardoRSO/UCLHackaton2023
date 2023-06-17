@@ -24,9 +24,5 @@
   "permissions": [
     "storage"
   ],
-  "options_ui": {
-    "page": "options.html",
-    "browser_style": true"
-  },
   "homepage_url": "https://github.com/EduardoRSO/UCLHackaton2023"
 }
