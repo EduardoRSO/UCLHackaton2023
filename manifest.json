@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "pinkfy",
+  "version": "1.0",
+  "description": "Change all images to 'pink e cerébro'",
+  "icons": {
+    "96": "icon/pink-96.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pinkfy@example.com"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.mozilla.org/*"
+      ],
+      "js": [
+        "pinkfy.js"
+      ]
+    }
+  ]
+}
