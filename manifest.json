@@ -4,7 +4,7 @@
   "version": "1.0",
   "description": "Change all images to 'pink e cerébro'",
   "icons": {
-    "96": "icon/pink-96.png"
+    "96": "icon/pink-96.jpg"
   },
   "browser_specific_settings": {
     "gecko": {
