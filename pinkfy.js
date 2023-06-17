@@ -1,3 +1,5 @@
+document.body.style.border = "5px solid red";
+
 //found this at https://github.com/Fortyseven/nCage/blob/master/ncage.js 
 (function () {
   //Ncage 

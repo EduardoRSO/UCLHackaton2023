@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "pinkfy",
+  "name": "PinkCerebro",
   "version": "1.0",
-  "description": "Change all images to 'pink e cerébro'",
+  "description": "Replace all images to 'pink e cerébro'",
   "icons": {
-    "96": "icon/pink-96.jpg"
+    "96": "pink-96.png"
   },
   "browser_specific_settings": {
     "gecko": {
@@ -14,11 +14,19 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.mozilla.org/*"
+        "*://*/*"
       ],
       "js": [
         "pinkfy.js"
       ]
     }
-  ]
+  ],
+  "permissions": [
+    "storage"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "browser_style": true"
+  },
+  "homepage_url": "https://github.com/EduardoRSO/UCLHackaton2023"
 }
