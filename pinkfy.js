@@ -2,7 +2,7 @@ const INTERVAL_KEY = "INTERVAL_KEY";
 // default to 1s refresh window
 const DEFAULT_INTERVAL = "1000";
 
-const NICS = [
+const PINKS = [
   "https://www.criarmeme.com.br/meme/meme-55404-O-que-vamos-fazer-hoje-Pink-Vamos-dominar-o-mundo.jpg", // 1
   "https://i.pinimg.com/originals/07/c4/88/07c488a29fd4320984bff0e6baf41023.jpg", // 2
   "https://img.elo7.com.br/product/zoom/11172E2/poster-a3-dominar-o-mundo-decoracao.jpg", // 3
@@ -47,26 +47,26 @@ const NICS = [
   // "https://www.yam-mag.com/wp-content/uploads/2012/05/nicholas-cage-kick-ass.jpg", // makeup is cool
 ]
 
-function getNic() {
-  let nicNum = Math.floor(Math.random() * NICS.length);
-  return NICS[nicNum];
+function getPinkImg() {
+  let pinkNum = Math.floor(Math.random() * PINKS.length);
+  return PINKS[pinkNum];
 }
 
 function replaceImages() {
   for (let i = 0; i < document.images.length; ++i) {
     let img = document.images[i];
 
-    if (img.classList.contains('nicced')) {
+    if (img.classList.contains('pinkked')) {
       continue;
     }
-    img.classList.add('nicced');
+    img.classList.add('pinkked');
 
     // attempt to retain the original dimensions
     img.style.width = img.width + 'px';
     img.style.height = img.height + 'px';
 
-    // nic-em
-    let loc = getNic()
+    // pink-em
+    let loc = getPinkImg()
     img.src = loc;
     if (img.srcset) {
       img.srcset = loc;
